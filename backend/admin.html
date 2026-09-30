@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>لوحة التحكم | ShieldScan</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+
+<div id="admLogin" class="adm-login">
+<div class="adm-login-bg"></div>
+<div class="adm-login-card">
+<div class="adm-lc-icon">🔐</div>
+<h1>لوحة التحكم</h1>
+<p>أدخل بيانات الدخول للمتابعة</p>
+<form id="loginForm" onsubmit="ADM.login(event); return false;">
+<div class="adm-fg"><label>البريد الإلكتروني</label><input type="email" id="lUser" placeholder="البريد الإلكتروني" required></div>
+<div class="adm-fg"><label>كلمة المرور</label><input type="password" id="lPass" placeholder="كلمة المرور" required></div>
+<label class="adm-remember"><input type="checkbox" id="lRemember"> تذكرني</label>
+<button type="button" onclick="ADM.login(event)" class="adm-btn-primary">🔓 دخول</button>
+</form>
+<div class="adm-error hidden" id="lError"></div>
+</div>
+</div>
+
+<div id="admDash" class="adm-dash hidden">
+
+<aside class="adm-side" id="admSide">
+<div class="adm-side-logo">
+<span>🛡️</span>
+<div><b>Shield</b><i>Scan</i><small>ADMIN</small></div>
+</div>
+<nav class="adm-side-nav">
+<a href="#" class="adm-link active" data-view="dashboard"><span class="adm-ico">📊</span><span>لوحة القيادة</span></a>
+<a href="#" class="adm-link" data-view="pages-editor"><span class="adm-ico">📝</span><span>محتوى الصفحات</span></a>
+<a href="#" class="adm-link" data-view="content"><span class="adm-ico">✏️</span><span>المحتوى السريع</span></a>
+<a href="#" class="adm-link" data-view="design"><span class="adm-ico">🎨</span><span>التصميم</span></a>
+<a href="#" class="adm-link" data-view="images"><span class="adm-ico">🖼️</span><span>الصور والشعار</span></a>
+<a href="#" class="adm-link" data-view="scans"><span class="adm-ico">🔍</span><span>الفحوصات</span><span class="adm-count" id="cntScans">0</span></a>
+<a href="#" class="adm-link" data-view="users"><span class="adm-ico">👥</span><span>المستخدمون</span><span class="adm-count" id="cntUsers">0</span></a>
+<a href="#" class="adm-link" data-view="messages"><span class="adm-ico">📨</span><span>الرسائل</span><span class="adm-count" id="cntMsgs">0</span></a>
+<a href="#" class="adm-link" data-view="backup"><span class="adm-ico">💾</span><span>النسخ الاحتياطي</span></a>
+<a href="#" class="adm-link" data-view="settings"><span class="adm-ico">⚙️</span><span>الإعدادات</span></a>
+</nav>
+<div class="adm-side-foot">
+<a href="index.html" target="_blank" class="adm-link"><span class="adm-ico">🏠</span><span>عرض الموقع</span></a>
+<button class="adm-logout" onclick="ADM.logout()">🚪 خروج</button>
+</div>
+</aside>
+
+<div class="adm-overlay" id="admOverlay" onclick="ADM.toggleSide()"></div>
+
+<main class="adm-main">
+<header class="adm-top">
+<button class="adm-burger" onclick="ADM.toggleSide()">☰</button>
+<div class="adm-top-titles"><h1 id="admTitle">لوحة القيادة</h1><p id="admSubtitle">نظرة عامة</p></div>
+<div class="adm-top-actions">
+<button class="adm-icon-btn" id="themeBtn" onclick="ADM.toggleTheme()">🌙</button>
+<div class="adm-user-chip"><span class="adm-avatar">A</span><div><b>admin</b><small id="sessionTime">—</small></div></div>
+</div>
+</header>
+
+<section class="adm-view active" id="view-dashboard">
+<div class="adm-kpis">
+<div class="adm-kpi adm-kpi-blue"><div class="adm-kpi-ico">🔗</div><div class="adm-kpi-body"><span class="adm-kpi-lbl">روابط مفحوصة</span><h2 id="kpiUrls">0</h2></div></div>
+<div class="adm-kpi adm-kpi-green"><div class="adm-kpi-ico">📁</div><div class="adm-kpi-body"><span class="adm-kpi-lbl">ملفات مفحوصة</span><h2 id="kpiFiles">0</h2></div></div>
+<div class="adm-kpi" style="background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border:2px solid #a855f7"><div class="adm-kpi-ico" style="background:#f3e8ff">📧</div><div class="adm-kpi-body"><span class="adm-kpi-lbl">رسائل مفحوصة</span><h2 id="kpiEmails" style="color:#7c3aed">0</h2></div></div>
+<div class="adm-kpi adm-kpi-red"><div class="adm-kpi-ico">🚨</div><div class="adm-kpi-body"><span class="adm-kpi-lbl">تهديدات</span><h2 id="kpiThreats">0</h2></div></div>
+<div class="adm-kpi adm-kpi-purple"><div class="adm-kpi-ico">👥</div><div class="adm-kpi-body"><span class="adm-kpi-lbl">مستخدمون</span><h2 id="kpiUsers">0</h2></div></div>
+</div>
+<div class="adm-panel">
+<div class="adm-panel-head"><h3>🎯 آخر الفحوصات</h3><button class="adm-link-btn" onclick="ADM.go('scans')">عرض الكل ←</button></div>
+<div class="adm-recent" id="recentScans"></div>
+</div>
+<div class="adm-panel">
+<div class="adm-panel-head"><h3>⚡ إجراءات سريعة</h3></div>
+<div class="adm-actions">
+<button class="adm-action" onclick="ADM.go('pages-editor')"><span>📝</span><b>محتوى الصفحات</b></button>
+<button class="adm-action" onclick="ADM.go('design')"><span>🎨</span><b>الألوان</b></button>
+<button class="adm-action" onclick="ADM.go('images')"><span>🖼️</span><b>الصور</b></button>
+<a class="adm-action" href="index.html" target="_blank"><span>🏠</span><b>الموقع</b></a>
+</div>
+</div>
+</section>
+
+<section class="adm-view" id="view-pages-editor">
+<div class="adm-panel">
+<div class="adm-panel-head">
+<h3>📝 تحرير محتوى كل الصفحات</h3>
+<div class="adm-head-actions">
+<button class="adm-btn-ghost" onclick="ADM.pagesReload()">🔄 إعادة تحميل</button>
+<button class="adm-btn-primary" onclick="ADM.pagesSaveAll()">💾 حفظ الكل</button>
+</div>
+</div>
+<div class="adm-tabs" id="pagesTabs">
+<button class="adm-tab active" data-pagetab="index" onclick="ADM.pagesTab('index')">🏠 الرئيسية</button>
+<button class="adm-tab" data-pagetab="features" onclick="ADM.pagesTab('features')">✨ المميزات</button>
+<button class="adm-tab" data-pagetab="faq" onclick="ADM.pagesTab('faq')">❓ الأسئلة</button>
+<button class="adm-tab" data-pagetab="contact" onclick="ADM.pagesTab('contact')">📞 اتصل بنا</button>
+<button class="adm-tab" data-pagetab="privacy" onclick="ADM.pagesTab('privacy')">🔒 الخصوصية</button>
+<button class="adm-tab" data-pagetab="footer" onclick="ADM.pagesTab('footer')">📄 الفوتر</button>
+<button class="adm-tab" data-pagetab="brand" onclick="ADM.pagesTab('brand')">🏷️ الهوية</button>
+</div>
+<div id="pagesEditorLoading" style="text-align:center;padding:40px;color:#64748b;font-weight:700">⏳ جاري تحميل محتوى الصفحات...</div>
+<div id="pagesEditorContent" style="display:none"></div>
+</div>
+</section>
+
+<section class="adm-view" id="view-content">
+<div class="adm-panel">
+<div class="adm-panel-head"><h3>✏️ المحتوى السريع</h3><div class="adm-head-actions"><button class="adm-btn-primary" onclick="ADM.contentSave()">💾 حفظ</button></div></div>
+<div class="adm-fg"><label>شارة الهيرو</label><input type="text" data-c="heroPill"></div>
+<div class="adm-fg"><label>العنوان 1</label><input type="text" data-c="heroT1"></div>
+<div class="adm-fg"><label>العنوان 2</label><input type="text" data-c="heroT2"></div>
+<div class="adm-fg"><label>الوصف</label><textarea data-c="heroDesc" rows="2"></textarea></div>
+<div class="adm-fg"><label>زر الرابط</label><input type="text" data-c="btnUrl"></div>
+<div class="adm-fg"><label>زر الملف</label><input type="text" data-c="btnFile"></div>
+</div>
+</section>
+
+<section class="adm-view" id="view-design">
+<div class="adm-panel">
+<div class="adm-panel-head"><h3>🎨 التصميم</h3><div class="adm-head-actions"><button class="adm-btn-primary" onclick="ADM.designSave()">💾 حفظ</button></div></div>
+<div class="adm-colors">
+<div class="adm-color"><label>الأساسي</label><input type="color" id="cPrimary" value="#6366f1"></div>
+<div class="adm-color"><label>الثانوي</label><input type="color" id="cSecondary" value="#8b5cf6"></div>
+<div class="adm-color"><label>التمييز</label><input type="color" id="cAccent" value="#ec4899"></div>
+<div class="adm-color"><label>الخلفية</label><input type="color" id="cBg" value="#f8fafc"></div>
+<div class="adm-color"><label>النص</label><input type="color" id="cText" value="#1e293b"></div>
+<div class="adm-color"><label>النص الثانوي</label><input type="color" id="cMuted" value="#64748b"></div>
+</div>
+<h4 class="adm-h4">📐 الأحجام</h4>
+<div class="adm-range"><div class="adm-range-head"><span>حجم الموقع</span><b id="rSizeV">100%</b></div><input type="range" id="rSize" min="80" max="140" value="100"></div>
+<div class="adm-range"><div class="adm-range-head"><span>الحواف</span><b id="rRadiusV">100%</b></div><input type="range" id="rRadius" min="0" max="150" value="100"></div>
+</div>
+</section>
+
+<section class="adm-view" id="view-images">
+<div class="adm-panel">
+<div class="adm-panel-head"><h3>🏷️ الشعار</h3></div>
+<div class="adm-img-box">
+<div class="adm-img-prev" id="logoPrev">🛡️</div>
+<div class="adm-img-ctrl">
+<div class="adm-fg"><label>إيموجي</label><input type="text" id="logoEmoji" maxlength="3" placeholder="🛡️"></div>
+<div class="adm-img-btns">
+<label class="adm-btn-primary" style="cursor:pointer">📤 رفع صورة<input type="file" accept="image/*" hidden onchange="ADM.uploadLogo(event)"></label>
+<button class="adm-btn-danger" onclick="ADM.removeLogo()">🗑️ حذف</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="adm-view" id="view-scans">
+<div class="adm-panel">
+<div class="adm-panel-head"><h3>🔍 سجل الفحوصات</h3><button class="adm-btn-danger" onclick="ADM.scansClear()">🗑️ حذف</button></div>
+<div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>#</th><th>النوع</th><th>الهدف</th><th>النتيجة</th></tr></thead><tbody id="scansBody"></tbody></table></div>
+</div>
+</section>
+
+<section class="adm-view" id="view-users">
+<div class="adm-panel">
+<div class="adm-panel-head"><h3>👥 المستخدمون</h3></div>
+<div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>#</th><th>الاسم</th><th>البريد</th><th>إجراءات</th></tr></thead><tbody id="usersBody"></tbody></table></div>
+</div>
+</section>
+
+<section class="adm-view" id="view-messages">
+<div class="adm-panel">
+<div class="adm-panel-head"><h3>📨 الرسائل</h3><button class="adm-btn-danger" onclick="ADM.msgsClear()">🗑️</button></div>
+<div id="msgsList" class="adm-msgs"></div>
+</div>
+</section>
+
+<section class="adm-view" id="view-backup">
+<div class="adm-panel">
+<div class="adm-panel-head"><h3>💾 النسخ الاحتياطي</h3></div>
+<div class="adm-backup-btns">
+<button class="adm-btn-primary" onclick="ADM.export()">⬇️ تصدير</button>
+<label class="adm-btn-ghost" style="cursor:pointer">⬆️ استيراد<input type="file" accept=".json" hidden onchange="ADM.import(event)"></label>
+<button class="adm-btn-danger" onclick="ADM.wipeAll()">🗑️ حذف</button>
+</div>
+</div>
+</section>
+
+<section class="adm-view" id="view-settings">
+<div class="adm-panel">
+<div class="adm-panel-head"><h3>⚙️ تغيير كلمة المرور</h3></div>
+<form onsubmit="ADM.changePass(event)">
+<div class="adm-fg"><label>الحالية</label><input type="password" id="cpOld" required></div>
+<div class="adm-fg"><label>الجديدة</label><input type="password" id="cpNew" minlength="6" required></div>
+<div class="adm-fg"><label>التأكيد</label><input type="password" id="cpNew2" required></div>
+<button type="submit" class="adm-btn-primary">🔐 تغيير</button>
+</form>
+</div>
+</section>
+
+</main>
+</div>
+
+<div class="adm-toast-wrap" id="admToastWrap"></div>
+<script src="js/api.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
