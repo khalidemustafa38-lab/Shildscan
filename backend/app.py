@@ -25,7 +25,7 @@ from functools import wraps
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "shieldscan.db")
 UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
-FRONTEND_DIR = os.path.dirname(BASE_DIR)
+FRONTEND_DIR = BASE_DIR
 
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
